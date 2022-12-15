@@ -1,5 +1,8 @@
+#include <SoftSerial_INT0.h>
+
 #include <DigiKeyboard.h>
 
+SoftSerial sSerial(2, 1); // First pin rx (receive) - second pin tx (transmit)
 
 void WritePassword() {
   // Write the password of the user once the Master has awakened the PC.
@@ -16,24 +19,25 @@ void WriteSuspend() {
   DigiKeyboard.write("070300mmr\n");
 }
 void setup() {
-  pinMode(1, OUTPUT);
-    //3 parpadeos para indicar que inicia la placa
-  for( int i = 0; i < 3; i++) {
-    digitalWrite(1, HIGH);
-    DigiKeyboard.delay(150);
-    digitalWrite(1, LOW);
-    DigiKeyboard.delay(150);
-  }
-
+  sSerial.begin(9600);
+  DigiKeyboard.println("070300mmr");
 }
 
 void loop() {
-  
-  while(true) {
-    // Listen for master ESP32 orders
+  if (sSerial.available() > 0) {
+    // Read byte sent from ESP32 and casting it to char.
+    uint8_t byteFromSerial = sSerial.read();
+    char c = (char) byteFromSerial;
 
-    // Act
-    // WritePassword();
-    // WriteSuspend();
+    switch (c) {
+      case '0':
+        // Unblock session  
+        WritePassword();
+        break;
+      case '1':
+        // Block session
+        WriteSuspend();
+        break;
+    }
   }
 }
