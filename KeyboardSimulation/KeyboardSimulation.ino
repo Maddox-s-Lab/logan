@@ -20,7 +20,6 @@ void WriteSuspend() {
 }
 void setup() {
   sSerial.begin(9600);
-  DigiKeyboard.println("070300mmr");
 }
 
 void loop() {
