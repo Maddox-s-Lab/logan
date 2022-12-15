@@ -14,8 +14,8 @@ WakeOnLan WOL(UDP); // Pass WiFiUDP class
 HardwareSerial MySerial(1);
 
 // Identifier and password to connect to network
-const char* ssid = ""; //Insert real values
-const char* password = ""; //Insert real values
+const char* ssid = "GL-DSH"; //Insert real values
+const char* password = "goodlife"; //Insert real values
 
 
 WebServer server(80);
