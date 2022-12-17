@@ -23,21 +23,28 @@ WebServer server(80);
 const int led = 13;
 
 void handleWakeUp() {
+  server.send(200, "text/plain", "OK");
   Serial.println("Handling Wake Up");
   WOL.sendMagicPacket("00:23:24:CD:8A:A6");
   delay(1000);
-  MySerial.write("0");
+  MySerial.write('3');
+}
+void handleLogin() {
+  server.send(200, "text/plain", "OK");
+  Serial.println("Handling Login");
+  MySerial.write('1');
 }
 
-void handleSuspend() {
-  MySerial.write("1");
+void handleLogout() {
+  server.send(200, "text/plain", "OK");
+  Serial.println("Handling Logout");
+  MySerial.write('2');
 }
 
 void setup(void) {
   MySerial.begin(9600);
-  pinMode(led, OUTPUT);
-  digitalWrite(led, 0);
   Serial.begin(115200);
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   Serial.println("");
@@ -60,7 +67,8 @@ void setup(void) {
   }
 
   server.on("/wake-up", handleWakeUp);
-  server.on("/suspend", handleSuspend);
+  server.on("/login", handleLogin);
+  server.on("/logout", handleLogout);
 
   server.onNotFound([](){
         server.send(404, "text/plain", "Action not found");
