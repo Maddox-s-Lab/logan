@@ -203,7 +203,7 @@ void setup() {
   M5.Lcd.setTextColor(WHITE);
   //M5.Lcd.setTextSize(2);
   //M5.Lcd.setCursor(8,8);
-  M5.Lcd.drawCentreString("Sendeding", 80, 16, 1);
+  M5.Lcd.drawCentreString("Sending", 80, 16, 1);
   //M5.Lcd.setCursor(8,30);
   M5.Lcd.drawCentreString("Wake-Up", 80, 38, 1);
 
@@ -236,7 +236,7 @@ void setup() {
 
 void loop() {
 
-  uint8_t val = digitalRead(M5_BUTTON_HOMEa);
+  uint8_t val = digitalRead(M5_BUTTON_HOME);
   
   
   if (val == LOW) {
